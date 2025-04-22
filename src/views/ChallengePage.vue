@@ -43,6 +43,7 @@ import CardComp from '../components/CardComp.vue'
 
 import challenge1 from '../assets/img/challenge/challenge1.png'
 import challenge2 from '../assets/img/challenge/challenge2.png'
+import image from '../assets/img/challenge_inner_pic/image.png'
 
 // Original slides
 const slides = [
@@ -140,7 +141,7 @@ onBeforeUnmount(() => {
 const customer_challenges = ref({
   1: {
     challengeType: 'default',
-    challengePhoto: 'src/assets/img/challenge_inner_pic/image.png',
+    challengePhoto: image,
     challengeContext: 'default',
     challengePerson: 'default',
     challengeTime: 'default',
@@ -149,7 +150,7 @@ const customer_challenges = ref({
   },
   2: {
     challengeType: '一日減糖挑戰',
-    challengePhoto: 'src/assets/img/challenge_inner_pic/image.png',
+    challengePhoto: image,
     challengeContext: '今天炒飯來吃，我放了菠菜、蝦子，少油少鹽吃起來無負擔',
     challengePerson: '小明',
     challengeTime: '2023-10-01',
@@ -158,7 +159,7 @@ const customer_challenges = ref({
   },
   3: {
     challengeType: 'default',
-    challengePhoto: 'src/assets/img/challenge_inner_pic/image.png',
+    challengePhoto: image,
     challengeContext: 'default',
     challengePerson: 'default',
     challengeTime: 'default',
@@ -167,7 +168,7 @@ const customer_challenges = ref({
   },
   4: {
     challengeType: 'default',
-    challengePhoto: 'src/assets/img/challenge_inner_pic/image.png',
+    challengePhoto: image,
     challengeContext: 'default',
     challengePerson: 'default',
     challengeTime: 'default',
@@ -178,7 +179,7 @@ const customer_challenges = ref({
 const shop_challenges = ref({
   1: {
     challengeType: 'default',
-    challengePhoto: 'src/assets/img/challenge_inner_pic/image.png',
+    challengePhoto: image,
     challengeContext: 'default',
     challengePerson: 'default',
     challengeTime: 'default',
@@ -187,7 +188,7 @@ const shop_challenges = ref({
   },
   2: {
     challengeType: '一日減糖挑戰',
-    challengePhoto: 'src/assets/img/challenge_inner_pic/image.png',
+    challengePhoto: image,
     challengeContext: '今天炒飯來吃，我放了菠菜、蝦子，少油少鹽吃起來無負擔',
     challengePerson: '小明',
     challengeTime: '2023-10-01',
@@ -196,7 +197,7 @@ const shop_challenges = ref({
   },
   3: {
     challengeType: 'default',
-    challengePhoto: 'src/assets/img/challenge_inner_pic/image.png',
+    challengePhoto: image,
     challengeContext: 'default',
     challengePerson: 'default',
     challengeTime: 'default',
@@ -205,7 +206,7 @@ const shop_challenges = ref({
   },
   4: {
     challengeType: 'default',
-    challengePhoto: 'src/assets/img/challenge_inner_pic/image.png',
+    challengePhoto: image,
     challengeContext: 'default',
     challengePerson: 'default',
     challengeTime: 'default',
