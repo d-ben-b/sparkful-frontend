@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="profile-pic">
-      <img :src="imgSrc" alt="" />
+      <img :src="photo" alt="" />
       <div class="challenge-bar">
         <p class="name">{{ profile.name }}</p>
         <p class="coin">積福幣 : {{ profile.eatCoin }}</p>
@@ -44,7 +44,8 @@ import CalendarComp from '@/components/CalendarComp.vue'
 import PieChartComp from '@/components/PieChartComp.vue'
 import bookkeepingComp from '@/components/bookkeepingComp.vue'
 
-const imgSrc = ref('src/assets/img/profile/photo.png')
+import photo from '@/assets/img/profile/photo.png'
+
 
 const show_comp = ref(0)
 const showComp = (comp_num) => {
