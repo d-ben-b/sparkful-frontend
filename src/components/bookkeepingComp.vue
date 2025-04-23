@@ -57,14 +57,9 @@ const Balance = props.charData.income.map((income, index) => income - props.char
 const totalBalance = total(Balance)
 
 
-//TODO: get data from backend
 onMounted(() => {
   Highcharts.chart('bookkeeping-chart-container', {
     chart: {
-      // Optional: Add zoom type if needed
-      // zooming: {
-      //   type: 'xy'
-      // }
       backgroundColor: 'transparent', // Match background if needed
     },
     title: {
@@ -212,7 +207,8 @@ onMounted(() => {
   left: 25px;
   padding: 0px;
   display: flex;
-  background-color: #e6f2e6;
+  /* background-color: #e6f2e6; */
+  background: #E0F1CC;
   /* Light green background like image */
   border-radius: 30px;
   gap: 20px;

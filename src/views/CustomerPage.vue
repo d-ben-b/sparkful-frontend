@@ -12,22 +12,21 @@
       <div class="analyze">
         <p class="title">財務建議</p>
         <button class="analyze-button">一鍵分析</button>
-        <bookkeepingComp :charData="userDataChart" />
-
+        <bookkeepingComp :charData="userDataChart" class="chart" />
       </div>
       <div class="analyze">
         <p class="title">預約營養師</p>
+        <BookingNutritionist />
       </div>
       <div class="analyze">
         <p class="title">健康建議</p>
         <button class="analyze-button">一鍵分析</button>
-        <PieChartComp :charData="userDataPie" />
+        <PieChartComp :charData="userDataPie" class="chart" />
 
 
       </div>
       <div class="analyze">
-        <p class="title">健康保單申請</p>
-        <button class="analyze-button">一鍵分析</button>
+        <ApplyComp class="apply-chart" />
       </div>
     </div>
   </div>
@@ -39,6 +38,8 @@ import VIPcustomer from '@/assets/img/VIP/VIPcustomer.png'
 import VIPbutton from '@/assets/img/VIP/VIPbutton.png'
 import PieChartComp from '@/components/PieChartComp.vue'
 import bookkeepingComp from '@/components/bookkeepingComp.vue'
+import BookingNutritionist from '@/components/BookingNutritionist.vue'
+import ApplyComp from '@/components/ApplyComp.vue'
 
 const buttons = ref([
   '財務建議',
@@ -73,17 +74,67 @@ const userDataPie = ref({
   justify-items: start;
 }
 
+.apply-chart {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.analyze-button {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  margin-left: 500px;
+  margin-top: 5px;
+  width: 83px;
+  height: 40px;
+  border-radius: 100px;
+  background: #719F6C;
+  border: none;
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.analyze-button:hover {
+  background-color: #5a9a54;
+  /* hover:bg-green-600 */
+}
+
+.chart {
+  position: absolute;
+  width: 595px;
+  height: 346px;
+  top: 100px !important;
+  margin-left: 72px;
+}
+
+.title {
+  margin-left: 49px;
+  font-family: 'Kaisei HarunoUmi', sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
 .analysis {
   width: 100%;
   height: 1905px;
   display: grid;
   grid-template-columns: repeat(2, 3fr);
-  grid-template-rows: repeat(2, 500pxpx);
+  grid-template-rows: repeat(2, 500px);
 }
 
-/* .analyze {
-  widht
-} */
+.analyze {
+  border: red solid 1px;
+  position: relative;
+}
 
 .box-1 {
   grid-row: 1;
