@@ -1,11 +1,14 @@
 <template>
   <div class="container">
     <div class="button-border">
-      <button class="button b0" :style="{
-        backgroundImage: `url(${imgSrc('b0')})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }">
+      <button
+        class="button b0"
+        :style="{
+          backgroundImage: `url(${buttonImages[0]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }"
+      >
         我的積福幣 :
         <p class="coin green">{{ eatCoin }}</p>
         /
@@ -13,16 +16,21 @@
       </button>
     </div>
     <div class="button-border" v-for="(button, index) in buttons" :key="index">
-      <button class="button" :class="`b${index + 1}`" @click="handleClick(button)" :style="{
-        backgroundImage: `url(${imgSrc(`b${index + 1}`)})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }">
+      <button
+        class="button"
+        :class="`b${index + 1}`"
+        @click="handleClick(button)"
+        :style="{
+          backgroundImage: `url(${buttonImages[index + 1]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }"
+      >
         {{ button }}
       </button>
     </div>
     <div class="button-border">
-      <img :src="`${imgSrc('background')}`" alt="" class="background" />
+      <img :src="`${imgSrc(background)}`" alt="" class="background" />
     </div>
   </div>
 </template>
@@ -30,6 +38,12 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
+import b0 from '@/assets/img/hamburger/b0.png'
+import b1 from '@/assets/img/hamburger/b1.png'
+import b2 from '@/assets/img/hamburger/b2.png'
+import b3 from '@/assets/img/hamburger/b3.png'
+import b4 from '@/assets/img/hamburger/b4.png'
+import background from '@/assets/img/hamburger/background.png'
 
 import { useRouter } from 'vue-router'
 
@@ -37,8 +51,9 @@ const router = useRouter()
 const eatCoin = ref(256)
 const eat2NT = ref(100)
 const client_id = ref(1) // Replace with your actual client ID
+const buttonImages = [b0, b1, b2, b3, b4] // Array of imported images
 const imgSrc = (name) => {
-  return `src/assets/img/hamburger/${name}.png`
+  return name
 }
 
 onMounted(() => {
@@ -52,14 +67,13 @@ const getUserData = async () => {
     const response = await axios.get('get-user-coins', {
       params: {
         client_id: client_id.value,
-      }
+      },
     })
     eatCoin.value = response.data.coin
   } catch (error) {
     console.error('Error fetching user data:', error)
   }
 }
-
 
 const buttons = ['數位綁定', '載具', '成為吃貨', '登出']
 

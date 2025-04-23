@@ -1,30 +1,61 @@
 <template>
   <transition name="menu">
-    <HamburgerComp v-if="states.isMenuOpen" @close="() => toggle('isMenuOpen')" class="hamburger-menu" />
+    <HamburgerComp
+      v-if="states.isMenuOpen"
+      @close="() => toggle('isMenuOpen')"
+      class="hamburger-menu"
+    />
   </transition>
   <transition name="VIPmenu">
     <VIPmenu v-if="states.VIPmenuOpen" @close="() => toggle('VIPmenuOpen')" class="" />
   </transition>
   <transition name="menu">
-    <UploadModal v-if="states.isUploadOpen" @close="() => toggle('isUploadOpen')" class="upload-menu"
-      @toggle-close="() => toggle('isUploadOpen')" />
+    <UploadModal
+      v-if="states.isUploadOpen"
+      @close="() => toggle('isUploadOpen')"
+      class="upload-menu"
+      @toggle-close="() => toggle('isUploadOpen')"
+    />
   </transition>
 
   <nav class="bar">
-    <img src="@/assets/img/icons/EatSmart.png" alt="title Image" class="icon" @click="goto('home')" />
-    <img src="@/assets/img/profile/1.png" alt="profile Image" class="icon" @click="goto('personal-page')" />
+    <img
+      src="@/assets/img/icons/EatSmart.png"
+      alt="title Image"
+      class="icon"
+      @click="goto('home')"
+    />
+    <img
+      src="@/assets/img/profile/1.png"
+      alt="profile Image"
+      class="icon"
+      @click="goto('personal-page')"
+    />
     <div class="upload">
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
-        @click="() => toggle('isUploadOpen')" class="upload-icon">
-        <path d="M24 2V24V46M2 24H46" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        @click="() => toggle('isUploadOpen')"
+        class="upload-icon"
+      >
+        <path
+          d="M24 2V24V46M2 24H46"
+          stroke="black"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </div>
 
     <div v-if="isVIP" @click="() => toggle('VIPmenuOpen')">
-      <img src="@/assets/img/VIP/VIPbutton.png" alt="" class="premium">
+      <img src="@/assets/img/VIP/VIPbutton.png" alt="" class="premium" />
     </div>
     <div @click="() => toggle('isMenuOpen')">
-      <img src="@/assets/img/navibar_icon/hamburger.png" alt="" class="hamburger">
+      <img src="@/assets/img/navibar_icon/hamburger.png" alt="" class="hamburger" />
     </div>
   </nav>
   <div class="background" v-if="open_modal_background"></div>

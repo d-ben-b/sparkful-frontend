@@ -38,7 +38,6 @@ const backgroundStyle = computed(() => {
     background: `${props.cardType === 'challenge' ? '#FE7E818F' : 'transparent'}`,
   }
 })
-
 </script>
 
 <style scoped>

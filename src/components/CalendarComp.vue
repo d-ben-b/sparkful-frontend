@@ -17,8 +17,12 @@
       </thead>
       <tbody>
         <tr v-for="(week, index) in weeks" :key="index">
-          <td v-for="(day, idx) in week" :key="idx" :class="{ today: isToday(day), event: hasEvent(day) }"
-            @click="emitData(day)">
+          <td
+            v-for="(day, idx) in week"
+            :key="idx"
+            :class="{ today: isToday(day), event: hasEvent(day) }"
+            @click="emitData(day)"
+          >
             {{ day }}
           </td>
         </tr>
@@ -139,7 +143,7 @@ const emitData = (day) => {
   width: 595px;
   height: 346px;
   border-radius: 30px;
-  background-color: #E6F2E6;
+  background-color: #e6f2e6;
 }
 
 .title {
@@ -187,7 +191,7 @@ table.calendar td {
 }
 
 .event {
-  background: #FFCF4B;
+  background: #ffcf4b;
   color: #000000;
   font-weight: bold;
   border-radius: 50px;

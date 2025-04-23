@@ -4,12 +4,12 @@
     <div class="summary-area">
       <div class="summary-box income">
         <div>收入</div>
-        <div>13,536</div>
+        <div>{{ totalIcome }}</div>
         <div class="change negative">-4,411 (23.5%)</div>
       </div>
       <div class="summary-box expense">
         <div>支出</div>
-        <div>15,367</div>
+        <div>{{ totalExpense }}</div>
         <div class="change positive">+3,910 (33.2%)</div>
       </div>
       <div class="summary-box net-period">
@@ -19,7 +19,7 @@
       </div>
       <div class="summary-box total-balance">
         <div>總收支</div>
-        <div>28,903</div>
+        <div>{{ totalBalance }}</div>
         <div class="change positive">+7,884 (13.5%)</div>
       </div>
     </div>
@@ -27,12 +27,37 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import Highcharts from 'highcharts';
-// Optionally import modules like exporting
-// import Exporting from 'highcharts/modules/exporting';
-// Exporting(Highcharts);
+import { onMounted } from 'vue'
+import Highcharts from 'highcharts'
 
+// Define props with default data
+const props = defineProps({
+  charData: {
+    type: Object,
+    default: () => ({
+      categories: ['25年1月', '25年2月', '25年3月', '25年4月', '25年5月'],
+      income: [2.5, 3.4, 4.2, 6.0, 5.2],
+      expense: [1.0, 1.2, 3.3, 6.0, 2.8],
+    }),
+  },
+})
+const total = (array) => {
+  if (props.charData && Array.isArray(array)) {
+    const sum = array.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    const totalValue = sum * 1000;
+    return new Intl.NumberFormat('en-US').format(totalValue);
+  }
+  return '0';
+}
+
+// Calculate totals
+const totalIcome = total(props.charData.income)
+const totalExpense = total(props.charData.expense)
+const Balance = props.charData.income.map((income, index) => income - props.charData.expense[index]);
+const totalBalance = total(Balance)
+
+
+//TODO: get data from backend
 onMounted(() => {
   Highcharts.chart('bookkeeping-chart-container', {
     chart: {
@@ -43,70 +68,87 @@ onMounted(() => {
       backgroundColor: 'transparent', // Match background if needed
     },
     title: {
-      text: null // No main title for the chart itself
+      text: null, // No main title for the chart itself
     },
     credits: {
-      enabled: false // Disable credits
+      enabled: false, // Disable credits
     },
-    xAxis: [{
-      categories: [ // Example categories, replace with your actual data labels
-        '25年1月', '25年2月', '25年3月', '25年4月', '25年5月'
-      ],
-      crosshair: true,
-      labels: {
-        style: {
-          color: '#666666' // Axis label color
-        }
+    xAxis: [
+      {
+        categories: props.charData.categories, // Use categories from props
+        crosshair: true,
+        labels: {
+          style: {
+            color: '#666666', // Axis label color
+          },
+        },
+        lineColor: '#ccd6eb', // X-axis line color
+        tickColor: '#ccd6eb', // X-axis tick color
       },
-      lineColor: '#ccd6eb', // X-axis line color
-      tickColor: '#ccd6eb' // X-axis tick color
-    }],
-    yAxis: [{ // Primary yAxis (Income/Expense)
-      title: {
-        text: '收支',
-        style: {
-          color: '#666666'
-        }
+    ],
+    yAxis: [
+      {
+        // Primary yAxis (Income/Expense)
+        title: {
+          text: '收支',
+          style: {
+            color: '#666666',
+          },
+        },
+        labels: {
+          formatter: function () {
+            return new Intl.NumberFormat('zh-CN', {
+              style: 'decimal',
+              minimumFractionDigits: 1,
+              maximumFractionDigits: 1,
+            }).format(this.value) + ' k';
+          }, // Format labels as needed (e.g., thousands)
+          style: {
+            color: '#666666',
+          },
+        },
+        gridLineColor: '#e6e6e6', // Color of grid lines
       },
-      labels: {
-        format: '{value} k', // Format labels as needed (e.g., thousands)
-        style: {
-          color: '#666666'
-        }
+      {
+        // Secondary yAxis (Total Balance)
+        title: {
+          text: '總收支',
+          style: {
+            color: '#666666',
+          },
+        },
+        labels: {
+          formatter: function () {
+            return new Intl.NumberFormat('zh-CN', {
+              style: 'decimal',
+              minimumFractionDigits: 1,
+              maximumFractionDigits: 1,
+            }).format(this.value) + ' k';
+          }, // Format labels as needed
+          style: {
+            color: '#666666',
+          },
+        },
+        opposite: true,
+        gridLineColor: '#e6e6e6', // Color of grid lines for secondary axis
       },
-      gridLineColor: '#e6e6e6' // Color of grid lines
-    }, { // Secondary yAxis (Total Balance)
-      title: {
-        text: '總收支',
-        style: {
-          color: '#666666'
-        }
-      },
-      labels: {
-        format: '{value} k', // Format labels as needed
-        style: {
-          color: '#666666'
-        }
-      },
-      opposite: true,
-      gridLineColor: '#e6e6e6' // Color of grid lines for secondary axis
-    }],
+    ],
     tooltip: {
-      shared: true // Show tooltip for all series at a point
+      shared: true, // Show tooltip for all series at a point
     },
     legend: {
       layout: 'horizontal', // Changed layout
-      align: 'center',      // Centered alignment
+      align: 'center', // Centered alignment
       verticalAlign: 'bottom', // Positioned at the bottom
       itemStyle: {
-        color: '#333333' // Legend text color
+        color: '#333333', // Legend text color
       },
       itemHoverStyle: {
-        color: '#000000'
+        color: '#000000',
       },
       itemHiddenStyle: {
-        color: '#cccccc'
-      }
+        color: '#cccccc',
+      },
       // Optional: remove background and border
       // backgroundColor: 'none',
       // borderWidth: 0
@@ -115,47 +157,51 @@ onMounted(() => {
       column: {
         pointPadding: 0.2,
         borderWidth: 0,
-        borderRadius: 5 // Rounded corners for columns
+        borderRadius: 5, // Rounded corners for columns
       },
       spline: {
         lineWidth: 3, // Make line thicker
         marker: {
           enabled: true, // Show markers on the line
-          radius: 4
-        }
-      }
+          radius: 4,
+        },
+      },
     },
-    series: [{
-      name: '收入',
-      type: 'column',
-      yAxis: 0, // Use the primary axis
-      data: [2.5, 3.4, 4.2, 6.0, 5.2], // Example data (in k)
-      color: '#90EE90', // Light Green
-      tooltip: {
-        valueSuffix: ' k'
-      }
-    }, {
-      name: '支出',
-      type: 'column',
-      yAxis: 0, // Use the primary axis
-      data: [1.0, 1.2, 3.3, 6.0, 2.8], // Example data (in k) - Note: 3rd month expense matches income
-      color: '#F08080', // Light Coral / Red
-      borderColor: '#F08080', // Ensure border matches fill
-      tooltip: {
-        valueSuffix: ' k'
-      }
-    }, {
-      name: '總收支', // This seems to represent net income per period in the image line graph
-      type: 'spline',
-      yAxis: 1, // Use the secondary axis
-      data: [1.5, 2.2, 0.9, 0, 2.4], // Example data: Income - Expense (in k)
-      color: '#FFD700', // Gold / Yellow
-      tooltip: {
-        valueSuffix: ' k'
-      }
-    }]
-  });
-});
+    series: [
+      {
+        name: '收入',
+        type: 'column',
+        yAxis: 0, // Use the primary axis
+        data: props.charData.income, // Example data (in k)
+        color: '#90EE90', // Light Green
+        tooltip: {
+          valueSuffix: ' k',
+        },
+      },
+      {
+        name: '支出',
+        type: 'column',
+        yAxis: 0, // Use the primary axis
+        data: props.charData.expense, // Example data (in k) - Note: 3rd month expense matches income
+        color: '#F08080', // Light Coral / Red
+        borderColor: '#F08080', // Ensure border matches fill
+        tooltip: {
+          valueSuffix: ' k',
+        },
+      },
+      {
+        name: '總收支', // This seems to represent net income per period in the image line graph
+        type: 'spline',
+        yAxis: 1, // Use the secondary axis
+        data: Balance, // Example data: Income - Expense (in k)
+        color: '#FFD700', // Gold / Yellow
+        tooltip: {
+          valueSuffix: ' k',
+        },
+      },
+    ],
+  })
+})
 </script>
 
 <style scoped>
@@ -166,7 +212,7 @@ onMounted(() => {
   left: 25px;
   padding: 0px;
   display: flex;
-  background-color: #E6F2E6;
+  background-color: #e6f2e6;
   /* Light green background like image */
   border-radius: 30px;
   gap: 20px;
@@ -189,7 +235,6 @@ onMounted(() => {
   height: 300px;
   /* Or adjust as needed */
 }
-
 
 .summary-area {
   position: relative;
@@ -240,22 +285,22 @@ onMounted(() => {
 }
 
 .summary-box.income {
-  background-color: #90EE90;
+  background-color: #90ee90;
   /* Light Green */
 }
 
 .summary-box.expense {
-  background-color: #F08080;
+  background-color: #f08080;
   /* Light Coral / Red */
 }
 
 .summary-box.net-period {
-  background-color: #87CEEB;
+  background-color: #87ceeb;
   /* Sky Blue */
 }
 
 .summary-box.total-balance {
-  background-color: #FFD700;
+  background-color: #ffd700;
   /* Gold / Yellow */
   color: #555;
   /* Darker text for yellow background */

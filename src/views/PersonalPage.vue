@@ -46,10 +46,9 @@ import bookkeepingComp from '@/components/bookkeepingComp.vue'
 
 import photo from '@/assets/img/profile/photo.png'
 
-
 const show_comp = ref(0)
 const showComp = (comp_num) => {
-  show_comp.value = comp_num;
+  show_comp.value = comp_num
 }
 //TODO get from backend
 const progress = ref(98)
@@ -93,7 +92,6 @@ const userData = ref([
     },
   },
 ])
-//TODO get from backend
 
 import { watch } from 'vue'
 
@@ -153,7 +151,7 @@ onMounted(() => {
   height: 228px;
   top: 80px;
   background: #91ad6fb2;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 .profile-pic img {

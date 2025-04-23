@@ -6,7 +6,7 @@
         <label for="file-upload" class="upload-button">從電腦上傳</label>
         <input id="file-upload" type="file" @change="handleFileUpload" />
       </div>
-      <img src="@\assets\img\profile\image.png" alt="" style="width: 75px;">
+      <img src="@\assets\img\profile\image.png" alt="" style="width: 75px" />
       <p>積幅幣換算</p>
     </div>
 
@@ -15,9 +15,9 @@
         <div class="food-image-section">
           <img :src="previewImageUrl" alt="Food Image" class="food-image" />
           <div class="star-rating">
-            <span v-for="i in 3" :key="i" class="star" :class="{ 'filled': i <= rating }">★</span>
+            <span v-for="i in 3" :key="i" class="star" :class="{ filled: i <= rating }">★</span>
           </div>
-          <div class=" coin-display">
+          <div class="coin-display">
             <!-- <img src="@/assets/img/profile/coin.png" alt="Coin" class="coin-icon" /> -->
             <span class="coin-text">💰積福點：+{{ coin }}</span>
           </div>
@@ -27,7 +27,13 @@
           <div class="form-group">
             <div class="form-label">吃貨宣告：</div>
             <div class="form-input">
-              <input type="text" v-model="title" class=" example-text" placeholder="ex:一日不吃炸豬腳" required />
+              <input
+                type="text"
+                v-model="title"
+                class="example-text"
+                placeholder="ex:一日不吃炸豬腳"
+                required
+              />
             </div>
           </div>
 
@@ -36,11 +42,11 @@
             <div class="form-input">
               <div class="radio-buttons">
                 <label class="radio-label">
-                  <input type="radio" name="challenge" v-model="hasChallenge" :value="true">
+                  <input type="radio" name="challenge" v-model="hasChallenge" :value="true" />
                   有
                 </label>
                 <label class="radio-label">
-                  <input type="radio" name="challenge" v-model="hasChallenge" :value="false">
+                  <input type="radio" name="challenge" v-model="hasChallenge" :value="false" />
                   沒有
                 </label>
               </div>
@@ -50,8 +56,12 @@
                   <span class="dropdown-icon">➡</span>
                 </div>
                 <ul v-if="isDropdownOpen" class="dropdown-list">
-                  <li v-for="challenge in challengeOptions" :key="challenge.id" @click.stop="selectChallenge(challenge)"
-                    class="dropdown-item">
+                  <li
+                    v-for="challenge in challengeOptions"
+                    :key="challenge.id"
+                    @click.stop="selectChallenge(challenge)"
+                    class="dropdown-item"
+                  >
                     {{ challenge.desc }}
                   </li>
                 </ul>
@@ -65,11 +75,11 @@
               <input type="number" v-model="cost" class="cost-field" min="1" required />
               <span class="currency-symbol">$</span>
               <label class="radio-label">
-                <input type="radio" name="costSharing" v-model="isShared" :value="true">
+                <input type="radio" name="costSharing" v-model="isShared" :value="true" />
                 分享
               </label>
               <label class="radio-label">
-                <input type="radio" name="costSharing" v-model="isShared" :value="false">
+                <input type="radio" name="costSharing" v-model="isShared" :value="false" />
                 不分享
               </label>
             </div>
@@ -78,10 +88,14 @@
           <div class="form-group">
             <div class="form-label">吃貨備錄：</div>
             <div class="form-input">
-              <textarea v-model="notes" class="notes-field" placeholder="ex：
+              <textarea
+                v-model="notes"
+                class="notes-field"
+                placeholder="ex：
 今天的飯來吃
 我做了蕃茄、蛋子
-少油少鹽吃起來無負擔"></textarea>
+少油少鹽吃起來無負擔"
+              ></textarea>
             </div>
           </div>
 
@@ -97,122 +111,122 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import axios from 'axios'
+import { ref, onMounted } from 'vue'
 
-const coin = ref(0); // Default to 30 as shown in the image
-const client_id = ref(1);
-const img_id = ref(0);
-const show_dialog = ref(true);
-const uploaded = ref(false);
-const previewImageUrl = ref('');
-const rating = ref(3); // Default rating (3 stars)
-const hasChallenge = ref(true); // Default to "有"
-const selectedChallenge = ref('');
-const challengeOptions = ref([]);
-const isDropdownOpen = ref(false);
-const cost = ref('');
-const isShared = ref(false); // Default to "不分享"
-const notes = ref('');
-const title = ref(''); // Title for the challenge
+const coin = ref(0) // Default to 30 as shown in the image
+const client_id = ref(1)
+const img_id = ref(0)
+const show_dialog = ref(true)
+const uploaded = ref(false)
+const previewImageUrl = ref('')
+const rating = ref(3) // Default rating (3 stars)
+const hasChallenge = ref(true) // Default to "有"
+const selectedChallenge = ref('')
+const challengeOptions = ref([])
+const isDropdownOpen = ref(false)
+const cost = ref('')
+const isShared = ref(false) // Default to "不分享"
+const notes = ref('')
+const title = ref('') // Title for the challenge
 
-const emit = defineEmits(['toggle-close']);
+const emit = defineEmits(['toggle-close'])
 
 onMounted(() => {
-  getChallengeOptions();
-});
+  getChallengeOptions()
+})
 
 const getChallengeOptions = async () => {
   try {
     // Fetch challenge options from the server
-    const response = await axios.get('challenges');
+    const response = await axios.get('challenges')
     if (response.status === 200) {
-      console.log('Fetched challenges:', response.data);
-      challengeOptions.value = response.data.challenge || [];
-      return;
+      console.log('Fetched challenges:', response.data)
+      challengeOptions.value = response.data.challenge || []
+      return
     }
   } catch (error) {
-    console.error('Failed to fetch challenges:', error);
+    console.error('Failed to fetch challenges:', error)
   }
 
   // Fallback to hardcoded options if API fails
-  console.log('Using default challenge options');
+  console.log('Using default challenge options')
   challengeOptions.value = [
     { id: 1, desc: '一日不吃炸豬腳' },
     { id: 2, desc: '一周不吃甜食' },
     { id: 3, desc: '一個月不喝飲料' },
-    { id: 4, desc: '健康蔬食週' }
-  ];
-};
+    { id: 4, desc: '健康蔬食週' },
+  ]
+}
 
 const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value;
-};
+  isDropdownOpen.value = !isDropdownOpen.value
+}
 
 const selectChallenge = (challenge) => {
-  selectedChallenge.value = challenge.desc;
-  isDropdownOpen.value = false; // Close dropdown after selection
-};
+  selectedChallenge.value = challenge.desc
+  isDropdownOpen.value = false // Close dropdown after selection
+}
 
 const handleCoinConversion = () => {
-  console.log('Coin conversion clicked');
-  show_dialog.value = !show_dialog.value; // Toggle dialog visibility
-};
+  console.log('Coin conversion clicked')
+  show_dialog.value = !show_dialog.value // Toggle dialog visibility
+}
 
 const getUploadDetail = async () => {
   try {
     const response = await axios.get('stars', {
       params: {
         client_id: client_id.value,
-        image_id: img_id.value
-      }
-    });
+        image_id: img_id.value,
+      },
+    })
     if (response.status === 200) {
-      console.log('Upload details:', response.data);
-      rating.value = response.data.stars;
-      coin.value = rating.value * 10;
-      return response.data;
+      console.log('Upload details:', response.data)
+      rating.value = response.data.stars
+      coin.value = rating.value * 10
+      return response.data
     }
   } catch (error) {
-    console.error('Failed to fetch upload details:', error);
+    console.error('Failed to fetch upload details:', error)
   }
-};
+}
 
 const handleFileUpload = async (event) => {
-  const file = event.target.files[0];
+  const file = event.target.files[0]
   if (file) {
-    console.log('File selected:', file.name);
+    console.log('File selected:', file.name)
     // Create a preview URL for the uploaded image
-    previewImageUrl.value = URL.createObjectURL(file);
+    previewImageUrl.value = URL.createObjectURL(file)
 
-    const formData = new FormData();
-    formData.append('image', file);
+    const formData = new FormData()
+    formData.append('image', file)
 
     try {
       const response = await axios.post('upload/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      });
+      })
 
-      console.log('Upload successful:', response.data);
+      console.log('Upload successful:', response.data)
 
-      coin.value = Math.ceil(response.data.ai_results.detections.health_score / 5);
-      img_id.value = response.data.database_id;
-      uploaded.value = true; // Show the rating form after successful upload
+      coin.value = Math.ceil(response.data.ai_results.detections.health_score / 5)
+      img_id.value = response.data.database_id
+      uploaded.value = true // Show the rating form after successful upload
 
-      getUploadDetail();
+      getUploadDetail()
     } catch (error) {
-      console.error('Upload failed:', error);
+      console.error('Upload failed:', error)
 
-      if (error.response.data.msg === "No valid food items detected in the image") {
-        alert("圖片中沒有食物，請重新上傳");
-        return;
+      if (error.response.data.msg === 'No valid food items detected in the image') {
+        alert('圖片中沒有食物，請重新上傳')
+        return
       }
-      uploaded.value = false;
+      uploaded.value = false
     }
   }
-};
+}
 
 const submitRating = async () => {
   // Implement submission logic here
@@ -226,20 +240,20 @@ const submitRating = async () => {
     client_id: client_id.value,
   }
   try {
-    const response = await axios.post('upload-post', formData);
+    const response = await axios.post('upload-post', formData)
     if (response.status === 200) {
-      console.log('Rating submitted successfully:', response.data);
-      alert('評價已提交！');
-      uploaded.value = false;
-      emit('toggle-close'); // Close the dialog after submission
+      console.log('Rating submitted successfully:', response.data)
+      alert('評價已提交！')
+      uploaded.value = false
+      emit('toggle-close') // Close the dialog after submission
     }
   } catch (error) {
-    console.error('Failed to submit rating:', error);
-    alert('評價提交失敗，請稍後再試。');
-    uploaded.value = true; // Keep the form open for retry
+    console.error('Failed to submit rating:', error)
+    alert('評價提交失敗，請稍後再試。')
+    uploaded.value = true // Keep the form open for retry
   }
-  previewImageUrl.value = '';
-};
+  previewImageUrl.value = ''
+}
 </script>
 
 <style scoped>
@@ -378,7 +392,7 @@ const submitRating = async () => {
 }
 
 .star.filled {
-  color: #FFD700;
+  color: #ffd700;
 }
 
 .coin-display {

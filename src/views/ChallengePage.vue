@@ -2,37 +2,68 @@
   <div class="challenge-selection">
     <div class="slider-container">
       <div class="slider">
-        <div class="slider-track"
-          :style="{ transform: `translateX(-${displayPosition}%)`, transition: transitionStyle }">
-          <img v-for="(slide, index) in extendedSlides" :key="index" :src="slide" alt="Challenge image" />
+        <div
+          class="slider-track"
+          :style="{ transform: `translateX(-${displayPosition}%)`, transition: transitionStyle }"
+        >
+          <img
+            v-for="(slide, index) in extendedSlides"
+            :key="index"
+            :src="slide"
+            alt="Challenge image"
+          />
         </div>
         <div class="slider-controls">
           <button @click="prevSlide" class="slider-btn prev">&lt;</button>
           <button @click="nextSlide" class="slider-btn next">&gt;</button>
         </div>
         <div class="slider-indicators">
-          <span v-for="(_, index) in slides" :key="index" :class="{ active: getRealIndex() === index }"
-            @click="goToSlide(index)">
+          <span
+            v-for="(_, index) in slides"
+            :key="index"
+            :class="{ active: getRealIndex() === index }"
+            @click="goToSlide(index)"
+          >
           </span>
         </div>
       </div>
     </div>
     <div class="customer-cards">
-      <CardComp v-for="(challenge, id) in customer_challenges" :key="id" :challengeType="challenge.challengeType"
-        :challengePhoto="challenge.challengePhoto" :challengeContext="challenge.challengeContext"
-        :challengePerson="challenge.challengePerson" :challengeTime="challenge.challengeTime" :star="challenge.star"
-        :cardType="challenge.cardType" />
+      <CardComp
+        v-for="(challenge, id) in customer_challenges"
+        :key="id"
+        :challengeType="challenge.challengeType"
+        :challengePhoto="challenge.challengePhoto"
+        :challengeContext="challenge.challengeContext"
+        :challengePerson="challenge.challengePerson"
+        :challengeTime="challenge.challengeTime"
+        :star="challenge.star"
+        :cardType="challenge.cardType"
+      />
     </div>
-    <svg width="1118" height="2" viewBox="0 0 1118 2" fill="none" xmlns="http://www.w3.org/2000/svg"
-      style="top: 875px; position: absolute; left: 100px">
+    <svg
+      width="1118"
+      height="2"
+      viewBox="0 0 1118 2"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style="top: 875px; position: absolute; left: 100px"
+    >
       <line x1="-0.000244141" y1="1.00293" x2="1118" y2="1.00293" stroke="black" />
     </svg>
 
     <div class="shop-cards">
-      <CardComp v-for="(challenge, id) in shop_challenges" :key="id" :challengeType="challenge.challengeType"
-        :challengePhoto="challenge.challengePhoto" :challengeContext="challenge.challengeContext"
-        :challengePerson="challenge.challengePerson" :challengeTime="challenge.challengeTime" :star="challenge.star"
-        :cardType="challenge.cardType" />
+      <CardComp
+        v-for="(challenge, id) in shop_challenges"
+        :key="id"
+        :challengeType="challenge.challengeType"
+        :challengePhoto="challenge.challengePhoto"
+        :challengeContext="challenge.challengeContext"
+        :challengePerson="challenge.challengePerson"
+        :challengeTime="challenge.challengeTime"
+        :star="challenge.star"
+        :cardType="challenge.cardType"
+      />
     </div>
   </div>
 </template>

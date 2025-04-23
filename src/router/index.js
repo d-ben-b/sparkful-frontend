@@ -21,6 +21,18 @@ const router = createRouter({
       meta: { title: 'Home' },
       component: ChallengePage,
     },
+    {
+      name: 'customer-page',
+      path: '/customer-page',
+      meta: { title: 'Customer Page' },
+      component: () => import('@/views/CustomerPage.vue'),
+    },
+    {
+      name: 'supplier-page',
+      path: '/supplier-page',
+      meta: { title: 'Supplier Page' },
+      component: () => import('@/views/SupplierPage.vue'),
+    },
   ],
 })
 

@@ -1,31 +1,57 @@
 <template>
   <div class="container">
     <div class="custom-menu">
-      <img :src="VIPcustomer" alt="" class="VIPcustomer">
-      <div v-for="(text, index) in buttons[0]" :key="index" class="border" :class="`box-${index + 1}`">
-        <img :src="VIPbutton" alt="">
-        <button class="selection">{{ text }}</button>
+      <img :src="VIPcustomer" alt="" class="VIPcustomer" />
+      <div
+        v-for="(text, index) in buttons[0]"
+        :key="index"
+        class="border"
+        :class="`box-${index + 1}`"
+      >
+        <img :src="VIPbutton" alt="" />
+        <button class="selection" @click="goto('customer-page')">{{ text }}</button>
       </div>
-      <p class="title">
-        超級吃貨
-      </p>
-      <svg class="bg" width="1250" height="284" viewBox="0 0 1250 284" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0H1150C1205.23 0 1250 44.7715 1250 100V184C1250 239.228 1205.23 284 1150 284H0V0Z" fill="#91AD6F" />
+      <p class="title">超級吃貨</p>
+      <svg
+        class="bg"
+        width="1250"
+        height="284"
+        viewBox="0 0 1250 284"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0H1150C1205.23 0 1250 44.7715 1250 100V184C1250 239.228 1205.23 284 1150 284H0V0Z"
+          fill="#91AD6F"
+        />
       </svg>
     </div>
 
     <div class="shop-menu">
-      <img :src="VIPshop" alt="" class="VIPcustomer">
-      <div v-for="(text, index) in buttons[1]" :key="index" class="border" :class="`box-${index + 1}`">
-        <img :src="VIPbutton" alt="">
-        <button class="selection">{{ text }}</button>
+      <img :src="VIPshop" alt="" class="VIPcustomer" />
+      <div
+        v-for="(text, index) in buttons[1]"
+        :key="index"
+        class="border"
+        :class="`box-${index + 1}`"
+      >
+        <img :src="VIPbutton" alt="" />
+        <button class="selection" @click="goto('supplier-page')">{{ text }}</button>
       </div>
 
-      <p class="title top-50">
-        超級供應商
-      </p>
-      <svg class="bg2" width="1248" height="288" viewBox="0 0 1248 288" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0H1148C1203.23 0 1248 44.7715 1248 100V188C1248 243.228 1203.23 288 1148 288H0V0Z" fill="#91AD6F" />
+      <p class="title top-50">超級供應商</p>
+      <svg
+        class="bg2"
+        width="1248"
+        height="288"
+        viewBox="0 0 1248 288"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 0H1148C1203.23 0 1248 44.7715 1248 100V188C1248 243.228 1203.23 288 1148 288H0V0Z"
+          fill="#91AD6F"
+        />
       </svg>
     </div>
   </div>
@@ -33,9 +59,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import VIPbutton from '@/assets/img/VIP/VIPbutton.png';
-import VIPcustomer from '@/assets/img/VIP/VIPcustomer.png';
-import VIPshop from '@/assets/img/VIP/VIPshop.png';
+import { useGoto } from '@/util/utility'
+import VIPbutton from '@/assets/img/VIP/VIPbutton.png'
+import VIPcustomer from '@/assets/img/VIP/VIPcustomer.png'
+import VIPshop from '@/assets/img/VIP/VIPshop.png'
+
+const goto = useGoto()
 
 const buttons = ref([
   ['健康建議', '財務建議', '預約營養師分析', '健康理財帳戶申請', '健康保單申請', '健康紀錄下載'],
@@ -62,7 +91,7 @@ const buttons = ref([
   display: grid;
   grid-template-columns: repeat(10, 125px);
   grid-template-rows: repeat(3, 1fr);
-  align-items: center
+  align-items: center;
 }
 
 .shop-menu {
@@ -114,6 +143,7 @@ const buttons = ref([
 }
 
 .selection {
+  cursor: pointer;
   width: 100%;
   font-family: Kaisei Decol;
   font-weight: 400;
@@ -123,6 +153,11 @@ const buttons = ref([
   background: transparent;
   border: none;
   text-align: left;
+}
+
+.selection:hover {
+  background: #bce090;
+  border-radius: 20px;
 }
 
 .VIPcustomer {
@@ -151,7 +186,7 @@ const buttons = ref([
   font-weight: 400;
   font-size: 19px;
   line-height: 100%;
-  color: #FFF;
+  color: #fff;
   letter-spacing: 0.5em;
   white-space: nowrap;
   justify-self: end;
@@ -182,7 +217,7 @@ const buttons = ref([
   font-weight: 400;
   font-size: 19px;
   line-height: 100%;
-  color: #FFF;
+  color: #fff;
   letter-spacing: 0.2em;
 }
 </style>
