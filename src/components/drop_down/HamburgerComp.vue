@@ -1,14 +1,11 @@
 <template>
   <div class="container">
     <div class="button-border">
-      <button
-        class="button b0"
-        :style="{
-          backgroundImage: `url(${buttonImages[0]})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }"
-      >
+      <button class="button b0" :style="{
+        backgroundImage: `url(${buttonImages[0]})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }">
         我的積福幣 :
         <p class="coin green">{{ eatCoin }}</p>
         /
@@ -16,16 +13,11 @@
       </button>
     </div>
     <div class="button-border" v-for="(button, index) in buttons" :key="index">
-      <button
-        class="button"
-        :class="`b${index + 1}`"
-        @click="handleClick(button)"
-        :style="{
-          backgroundImage: `url(${buttonImages[index + 1]})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }"
-      >
+      <button class="button" :class="`b${index + 1}`" @click="handleClick(button)" :style="{
+        backgroundImage: `url(${buttonImages[index + 1]})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }">
         {{ button }}
       </button>
     </div>
@@ -70,6 +62,7 @@ const getUserData = async () => {
       },
     })
     eatCoin.value = response.data.coin
+    console.log('User data fetched successfully:', response.data)
   } catch (error) {
     console.error('Error fetching user data:', error)
   }

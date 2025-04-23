@@ -62,7 +62,7 @@ const userDataPie = ref({
 })
 </script>
 
-<style>
+<style scoped>
 .upper {
   display: grid;
   width: 100%;
@@ -132,7 +132,6 @@ const userDataPie = ref({
 }
 
 .analyze {
-  border: red solid 1px;
   position: relative;
 }
 
