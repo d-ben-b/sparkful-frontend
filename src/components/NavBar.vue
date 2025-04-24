@@ -1,53 +1,22 @@
 <template>
   <transition name="menu">
-    <HamburgerComp
-      v-if="states.isMenuOpen"
-      @close="() => toggle('isMenuOpen')"
-      class="hamburger-menu"
-    />
+    <HamburgerComp v-if="states.isMenuOpen" @close="() => toggle('isMenuOpen')" class="hamburger-menu" />
   </transition>
   <transition name="VIPmenu">
     <VIPmenu v-if="states.VIPmenuOpen" @close="() => toggle('VIPmenuOpen')" class="" />
   </transition>
   <transition name="menu">
-    <UploadModal
-      v-if="states.isUploadOpen"
-      @close="() => toggle('isUploadOpen')"
-      class="upload-menu"
-      @toggle-close="() => toggle('isUploadOpen')"
-    />
+    <UploadModal v-if="states.isUploadOpen" @close="() => toggle('isUploadOpen')" class="upload-menu"
+      @toggle-close="() => toggle('isUploadOpen')" />
   </transition>
-
+  <UpgradeModal v-if="showUpgrade" @click="showUpgrade = !showUpgrade" />
   <nav class="bar">
-    <img
-      src="@/assets/img/icons/EatSmart.png"
-      alt="title Image"
-      class="icon"
-      @click="goto('home')"
-    />
-    <img
-      src="@/assets/img/profile/1.png"
-      alt="profile Image"
-      class="icon"
-      @click="goto('personal-page')"
-    />
+    <img src="@/assets/img/icons/EatSmart.png" alt="title Image" class="icon" @click="goto('home')" />
+    <img src="@/assets/img/profile/1.png" alt="profile Image" class="icon" @click="goto('personal-page')" />
     <div class="upload">
-      <svg
-        width="48"
-        height="48"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        @click="() => toggle('isUploadOpen')"
-        class="upload-icon"
-      >
-        <path
-          d="M24 2V24V46M2 24H46"
-          stroke="black"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
+        @click="() => toggle('isUploadOpen')" class="upload-icon">
+        <path d="M24 2V24V46M2 24H46" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
 
@@ -67,7 +36,9 @@ import { useRouter } from 'vue-router'
 import { useGoto } from '@/util/utility'
 import HamburgerComp from '@/components/drop_down/HamburgerComp.vue'
 import VIPmenu from '@/components/drop_down/VIPmenu.vue'
-import UploadModal from '@/components/drop_down/UploadModal.vue'
+import UploadModal from '@/components/modal/UploadModal.vue'
+import UpgradeModal from '@/components/modal/UpgradeModal.vue'
+
 const states = ref({
   isMenuOpen: false,
   isUploadOpen: false,
@@ -76,6 +47,7 @@ const states = ref({
 
 const open_modal_background = ref(false)
 const isVIP = ref(true)
+const showUpgrade = ref(true)
 
 const goto = useGoto()
 const router = useRouter()
