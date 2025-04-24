@@ -8,8 +8,8 @@ import '@/assets/style/global.css'
 
 const app = createApp(App)
 
-axios.defaults.baseURL = 'http://localhost:10001/api/'
-// axios.defaults.baseURL = 'https://sparkful-backend.onrender.com/api'
+//axios.defaults.baseURL = 'http://localhost:10001/api/'
+axios.defaults.baseURL = 'https://9164-192-169-121-20.ngrok-free.app/api/'
 app.config.globalProperties.$axios = axios
 
 app.use(router)
