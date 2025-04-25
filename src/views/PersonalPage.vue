@@ -180,26 +180,7 @@ const move = () => {
   }
 }
 
-watch()(
-  () => i.value,
-  (newValue) => {
-    const elem = document.getElementById('myBar')
-    let id = setInterval(frame, 10)
-    let width = 0
-
-    function frame() {
-      if (width >= newValue) {
-        clearInterval(id)
-      } else {
-        width++
-        elem.style.width = width + '%'
-        i.value = width
-      }
-    }
-  },
-)
-
-watch()(
+watch(
   () => store.getNutritionScore(),
   (newValue) => {
     pieChartData.value = newValue
@@ -211,6 +192,7 @@ onMounted(() => {
   move()
   getUserData()
   getUserPost()
+  pieChartData.value = store.getNutritionScore()
 })
 </script>
 

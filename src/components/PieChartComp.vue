@@ -1,9 +1,9 @@
 <template>
-  <div id="pie-chart-container"></div>
+  <div id="pie-chart-container" ref="chartContainer"></div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, watch, ref, computed, onUnmounted } from 'vue'
 import Highcharts from 'highcharts'
 
 const colors = ['#000', '#B4C5FF', '#FF7878', '#F2F87D', '#90FF86']
@@ -27,47 +27,46 @@ const props = defineProps({
   },
 })
 
+const chartContainer = ref(null)
+const chartInstance = ref(null)
 
-
-const pieData = [
-  {
-    name: '蛋白質',
-    y: props.charData.protein,
-    color: `${colors[1]}`,
-    legendColor: colors[1],
-    legendName: legend_names[1],
-  },
-  {
-    name: '澱粉',
-    y: props.charData.starch,
-    color: `${colors[2]}`,
-    legendColor: colors[2],
-    legendName: legend_names[2],
-  },
-  {
-    name: '纖維素',
-    y: props.charData.cellulose,
-    color: `${colors[4]}`,
-    legendColor: colors[4],
-    legendName: legend_names[4],
-  },
-].map((d) => ({
-  name: typeof d.name === 'string' ? d.name.trim() : '未命名',
-  y: d.y ?? 0,
-  color: d.color ?? colors[0],
-  legendColor: d.legendColor ?? colors[0],
-  legendName: d.legendName ?? '精緻吃貨',
-}))
-
-onMounted(() => {
-  Highcharts.setOptions({
-    lang: {
-      decimalPoint: '.',
-      thousandsSep: ',',
+const pieData = computed(() => {
+  const data = props.charData || { protein: 0, starch: 0, cellulose: 0 }
+  return [
+    {
+      name: '蛋白質',
+      y: data.protein,
+      color: `${colors[1]}`,
+      legendColor: colors[1],
+      legendName: legend_names[1],
     },
-  })
+    {
+      name: '澱粉',
+      y: data.starch,
+      color: `${colors[2]}`,
+      legendColor: colors[2],
+      legendName: legend_names[2],
+    },
+    {
+      name: '纖維素',
+      y: data.cellulose,
+      color: `${colors[4]}`,
+      legendColor: colors[4],
+      legendName: legend_names[4],
+    },
+  ].map((d) => ({
+    name: typeof d.name === 'string' ? d.name.trim() : '未命名',
+    y: d.y ?? 0,
+    color: d.color ?? colors[0],
+    legendColor: d.legendColor ?? colors[0],
+    legendName: d.legendName ?? '精緻吃貨',
+  }))
+})
 
-  Highcharts.chart('pie-chart-container', {
+const createOrUpdateChart = () => {
+  if (!chartContainer.value) return
+
+  const chartOptions = {
     chart: {
       type: 'pie',
       backgroundColor: 'transparent',
@@ -97,7 +96,7 @@ onMounted(() => {
     },
     legend: {
       labelFormatter: function () {
-        return `${this.legendName} `
+        return `${this.options.legendName} `
       },
       useHTML: true,
     },
@@ -105,10 +104,41 @@ onMounted(() => {
       {
         name: 'Percentage',
         colorByPoint: true,
-        data: pieData,
+        data: pieData.value,
       },
     ],
-  })
+  }
+
+  if (chartInstance.value) {
+    chartInstance.value.series[0].setData(pieData.value, true)
+  } else {
+    Highcharts.setOptions({
+      lang: {
+        decimalPoint: '.',
+        thousandsSep: ',',
+      },
+    })
+    chartInstance.value = Highcharts.chart(chartContainer.value, chartOptions)
+  }
+}
+
+watch(
+  pieData,
+  () => {
+    createOrUpdateChart()
+  },
+  { deep: true }
+)
+
+onMounted(() => {
+  createOrUpdateChart()
+})
+
+onUnmounted(() => {
+  if (chartInstance.value) {
+    chartInstance.value.destroy()
+    chartInstance.value = null
+  }
 })
 </script>
 
