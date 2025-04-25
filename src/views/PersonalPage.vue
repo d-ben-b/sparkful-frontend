@@ -150,7 +150,6 @@ const getUserPost = async () => {
 
 const getImg = async (post) => {
   try {
-    console.log(`media${post}`)
     // Set responseType to 'blob' to handle binary data
     const response = await axios.get(`media${post}`, {
       responseType: 'blob'
