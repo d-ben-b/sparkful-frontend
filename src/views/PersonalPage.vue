@@ -34,11 +34,16 @@
         <bookkeepingComp v-else />
       </div>
     </div>
+    <div class="user-past-post">
+      <div class="post" v-for="(post, index) in userPosts.posts" :key="index">
+        <img :src="post.imageUrl || ''" alt="Post image">
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import axios from 'axios'
 import { onMounted } from 'vue'
 import CalendarComp from '@/components/CalendarComp.vue'
@@ -49,6 +54,8 @@ import { useUserProfileStore } from '@/stores/userProfile'
 import photo from '@/assets/img/profile/photo.png'
 
 const store = useUserProfileStore()
+
+const pieChartData = ref()
 
 const client_id = ref(1)
 
@@ -78,7 +85,7 @@ const profile = ref({
 讓大家都能享受平價又健康的美味`,
 })
 
-const pieChartData = store.getNutritionScore()
+const userPosts = ref({ posts: [] })
 
 const userData = ref([
   {
@@ -101,8 +108,6 @@ const userData = ref([
   },
 ])
 
-import { watch } from 'vue'
-
 const selectionDate = (Date) => {
   alert(Date)
 }
@@ -115,6 +120,49 @@ const getUserData = async () => {
   })
   store.setEatCoin(response.data.coin)
   profile.value.eatCoin = response.data.coin
+}
+
+const getUserPost = async () => {
+  const response = await axios.get('see-post', {
+    params: {
+      client_id: client_id.value,
+    },
+  })
+
+  // Create a copy of the response data
+  const postsData = { ...response.data }
+
+  // Add image URLs to each post
+  if (postsData.posts && Array.isArray(postsData.posts)) {
+    for (const post of postsData.posts) {
+      try {
+        // Load the image for each post
+        post.imageUrl = await getImg(post.img)
+      } catch (error) {
+        console.error("Failed to load image:", error)
+        post.imageUrl = '' // Set a default or empty string on error
+      }
+    }
+  }
+
+  userPosts.value = postsData
+}
+
+const getImg = async (post) => {
+  try {
+    console.log(`media${post}`)
+    // Set responseType to 'blob' to handle binary data
+    const response = await axios.get(`media${post}`, {
+      responseType: 'blob'
+    })
+
+    // Create a URL for the blob data
+    const blob = new Blob([response.data], { type: response.headers['content-type'] })
+    return URL.createObjectURL(blob)
+  } catch (error) {
+    console.error("Error fetching image:", error)
+    return '' // Return empty string or a placeholder image URL
+  }
 }
 
 const move = () => {
@@ -151,10 +199,19 @@ watch()(
     }
   },
 )
+
+watch()(
+  () => store.getNutritionScore(),
+  (newValue) => {
+    pieChartData.value = newValue
+  },
+)
+
+
 onMounted(() => {
   move()
   getUserData()
-
+  getUserPost()
 })
 </script>
 
@@ -362,5 +419,28 @@ onMounted(() => {
   font-weight: 400;
   font-size: 16px;
   line-height: 100%;
+}
+
+.user-past-post {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  top: 513px;
+  background: #90c5ce80;
+  padding-left: 108px;
+  justify-content: center
+}
+
+.post {
+  width: 201px;
+  height: 237px;
+  border-width: 1px;
+  margin-right: 74px;
+}
+
+.post img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
 }
 </style>

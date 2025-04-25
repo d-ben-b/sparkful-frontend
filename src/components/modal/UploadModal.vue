@@ -120,7 +120,7 @@ const notes = ref('')
 const title = ref('') // Title for the challenge
 const number_of_posts = ref(0) // Number of posts
 
-const emit = defineEmits(['toggle-close', 'toggle-upgrade', 'toggle-set-nutrition-score'])
+const emit = defineEmits(['toggle-close', 'toggle-upgrade', 'toggle-set-nutrition-score', 'reload-page'])
 
 onMounted(() => {
   getChallengeOptions()

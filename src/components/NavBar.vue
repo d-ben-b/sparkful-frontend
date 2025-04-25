@@ -7,7 +7,8 @@
   </transition>
   <transition name="menu">
     <UploadModal v-if="states.isUploadOpen" @close="() => toggle('isUploadOpen')" class="upload-menu"
-      @toggle-close="() => toggle('isUploadOpen')" @toggle-upgrade="() => showUpgrade = true" />
+      @toggle-close="() => toggle('isUploadOpen')" @toggle-upgrade="() => showUpgrade = true"
+      @reload-page="() => window.location.reload()" />
   </transition>
   <UpgradeModal v-if="showUpgrade" @click="showUpgrade = !showUpgrade" />
   <nav class="bar">
@@ -47,7 +48,7 @@ const states = ref({
 
 const open_modal_background = ref(false)
 const isVIP = ref(true)
-const showUpgrade = ref(true)
+const showUpgrade = ref(false)
 
 const goto = useGoto()
 const router = useRouter()
