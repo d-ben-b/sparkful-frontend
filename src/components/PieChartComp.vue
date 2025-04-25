@@ -27,6 +27,8 @@ const props = defineProps({
   },
 })
 
+
+
 const pieData = [
   {
     name: '蛋白質',

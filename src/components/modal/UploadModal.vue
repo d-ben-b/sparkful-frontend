@@ -27,13 +27,7 @@
           <div class="form-group">
             <div class="form-label">吃貨宣告：</div>
             <div class="form-input">
-              <input
-                type="text"
-                v-model="title"
-                class="example-text"
-                placeholder="ex:一日不吃炸豬腳"
-                required
-              />
+              <input type="text" v-model="title" class="example-text" placeholder="ex:一日不吃炸豬腳" required />
             </div>
           </div>
 
@@ -56,12 +50,8 @@
                   <span class="dropdown-icon">➡</span>
                 </div>
                 <ul v-if="isDropdownOpen" class="dropdown-list">
-                  <li
-                    v-for="challenge in challengeOptions"
-                    :key="challenge.id"
-                    @click.stop="selectChallenge(challenge)"
-                    class="dropdown-item"
-                  >
+                  <li v-for="challenge in challengeOptions" :key="challenge.id" @click.stop="selectChallenge(challenge)"
+                    class="dropdown-item">
                     {{ challenge.desc }}
                   </li>
                 </ul>
@@ -88,14 +78,10 @@
           <div class="form-group">
             <div class="form-label">吃貨備錄：</div>
             <div class="form-input">
-              <textarea
-                v-model="notes"
-                class="notes-field"
-                placeholder="ex：
-今天的飯來吃
-我做了蕃茄、蛋子
-少油少鹽吃起來無負擔"
-              ></textarea>
+              <textarea v-model="notes" class="notes-field" placeholder="ex：
+  今天的飯來吃
+  我做了蕃茄、蛋子
+  少油少鹽吃起來無負擔"></textarea>
             </div>
           </div>
 
@@ -113,6 +99,9 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
+import { useUserProfileStore } from '@/stores/userProfile' // Import the store
+
+const uploadStore = useUserProfileStore() // Instantiate the store
 
 const coin = ref(0) // Default to 30 as shown in the image
 const client_id = ref(1)
@@ -129,8 +118,9 @@ const cost = ref('')
 const isShared = ref(false) // Default to "不分享"
 const notes = ref('')
 const title = ref('') // Title for the challenge
+const number_of_posts = ref(0) // Number of posts
 
-const emit = defineEmits(['toggle-close'])
+const emit = defineEmits(['toggle-close', 'toggle-upgrade', 'toggle-set-nutrition-score'])
 
 onMounted(() => {
   getChallengeOptions()
@@ -215,6 +205,10 @@ const handleFileUpload = async (event) => {
       img_id.value = response.data.database_id
       uploaded.value = true // Show the rating form after successful upload
 
+      // Get nutrition score from response
+      const score = response.data.ai_results.detections[0].nutrition_score
+      // Update the store state using the action
+      uploadStore.setNutritionScore(score)
       getUploadDetail()
     } catch (error) {
       console.error('Upload failed:', error)
@@ -245,6 +239,11 @@ const submitRating = async () => {
       console.log('Rating submitted successfully:', response.data)
       alert('評價已提交！')
       uploaded.value = false
+      number_of_posts.value = response.data.client_posts
+      if (number_of_posts.value % 2 === 0) {
+        console.log('Even number of posts, showing upgrade dialog')
+        emit('toggle-upgrade')
+      }
       emit('toggle-close') // Close the dialog after submission
     }
   } catch (error) {

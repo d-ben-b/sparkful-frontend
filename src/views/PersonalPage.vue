@@ -26,7 +26,7 @@
     </div>
 
     <div class="analysis">
-      <PieChartComp :userData="userData" />
+      <PieChartComp :charData="pieChartData" />
       <div class="cal">
         <button class="calender-switch" @click="showComp(1)">帳鋪</button>
         <button class="calender-switch1" @click="showComp(0)">行事曆</button>
@@ -39,12 +39,18 @@
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 import { onMounted } from 'vue'
 import CalendarComp from '@/components/CalendarComp.vue'
 import PieChartComp from '@/components/PieChartComp.vue'
 import bookkeepingComp from '@/components/bookkeepingComp.vue'
+import { useUserProfileStore } from '@/stores/userProfile'
 
 import photo from '@/assets/img/profile/photo.png'
+
+const store = useUserProfileStore()
+
+const client_id = ref(1)
 
 const show_comp = ref(0)
 const showComp = (comp_num) => {
@@ -72,6 +78,8 @@ const profile = ref({
 讓大家都能享受平價又健康的美味`,
 })
 
+const pieChartData = store.getNutritionScore()
+
 const userData = ref([
   {
     event: {
@@ -97,6 +105,16 @@ import { watch } from 'vue'
 
 const selectionDate = (Date) => {
   alert(Date)
+}
+
+const getUserPost = async () => {
+  const response = await axios.get('see-post', {
+    params: {
+      client_id: client_id.value,
+    },
+  })
+  console.log(response.data)
+
 }
 
 const move = () => {
@@ -135,6 +153,7 @@ watch()(
 )
 onMounted(() => {
   move()
+  getUserPost()
 })
 </script>
 

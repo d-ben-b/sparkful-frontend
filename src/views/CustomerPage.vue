@@ -40,6 +40,10 @@ import PieChartComp from '@/components/PieChartComp.vue'
 import bookkeepingComp from '@/components/bookkeepingComp.vue'
 import BookingNutritionist from '@/components/BookingNutritionist.vue'
 import ApplyComp from '@/components/ApplyComp.vue'
+import { useUserProfileStore } from '@/stores/userProfile'
+
+const store = useUserProfileStore()
+
 
 const buttons = ref([
   '財務建議',
@@ -55,11 +59,8 @@ const userDataChart = ref({
   income: [12.5, 3.4, 4.2, 6.0, 5.2],
   expense: [1.0, 1.2, 3.3, 6.0, 2.8],
 })
-const userDataPie = ref({
-  protein: 30,
-  starch: 30,
-  cellulose: 40,
-})
+
+const userDataPie = store.getNutritionScore()
 </script>
 
 <style scoped>

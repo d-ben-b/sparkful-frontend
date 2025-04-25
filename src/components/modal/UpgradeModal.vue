@@ -4,21 +4,20 @@
       <svg width="1074" height="558" viewBox="0 0 1074 558" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="326.5" y="39.5" width="740" height="335" rx="42.5" fill="white" stroke="#D4FF93" stroke-width="15" />
         <circle cx="343.5" cy="206.5" r="165.5" fill="white" stroke="#D4FF93" stroke-width="20" />
-        <div class="level">Level 19.</div>
         <!-- <img src="@/assets/images/doenjang_jjigae.png" alt="大醬鍋" class="food-image"> Placeholder image path -->
-        <div class="food-name">大醬鍋</div>
-        <div class="description">
-          <p>大醬鍋象徵著內斂卻深厚的風味與智慧</p>
-          <p>成為大醬鍋等級的吃貨</p>
-          <p>不只是遊戲裡的榮耀</p>
-          <p>更是一種生活態度的展現：</p>
-          <p>懂吃、會省、最強。</p>
-          <div class="stars">
-            <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-          </div>
-        </div>
       </svg>
-
+      <div class="level">Level 19.</div>
+      <div class="food-name">大醬鍋</div>
+      <div class="description">
+        <p>大醬鍋象徵著內斂卻深厚的風味與智慧</p>
+        <p>成為大醬鍋等級的吃貨</p>
+        <p>不只是遊戲裡的榮耀</p>
+        <p>更是一種生活態度的展現：</p>
+        <p>懂吃、會省、最強。</p>
+        <div class="stars">
+          <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+        </div>
+      </div>
 
 
     </div>
