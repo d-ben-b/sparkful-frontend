@@ -107,14 +107,14 @@ const selectionDate = (Date) => {
   alert(Date)
 }
 
-const getUserPost = async () => {
-  const response = await axios.get('see-post', {
+const getUserData = async () => {
+  const response = await axios.get('get-user-coins', {
     params: {
       client_id: client_id.value,
     },
   })
-  console.log(response.data)
-
+  store.setEatCoin(response.data.coin)
+  profile.value.eatCoin = response.data.coin
 }
 
 const move = () => {
@@ -153,7 +153,8 @@ watch()(
 )
 onMounted(() => {
   move()
-  getUserPost()
+  getUserData()
+
 })
 </script>
 
