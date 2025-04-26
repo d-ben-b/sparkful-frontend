@@ -7,9 +7,12 @@
         backgroundPosition: 'center',
       }">
         我的積福幣 :
-        <p class="coin green">{{ eatCoin }}</p>
-        /
-        <p class="coin">NT{{ eatCoin / eat2NT }} $</p>
+        <div class="coins">
+          <p class="coin green">{{ eatCoin }}</p>
+          /
+          <p class="coin">NT{{ eatCoin / eat2NT }} $</p>
+        </div>
+
       </button>
     </div>
     <div class="button-border" v-for="(button, index) in buttons" :key="index">
@@ -183,5 +186,10 @@ const handleClick = (button) => {
   height: 319px;
   top: 312px;
   left: 620px;
+}
+
+.coins {
+  display: flex;
+  justify-content: center;
 }
 </style>
