@@ -181,8 +181,6 @@
             <label>性別:</label>
             <input type="radio" name="gender" value="男" id="male" /><label for="male">男</label>
             <input type="radio" name="gender" value="女" id="female" /><label for="female">女</label>
-            <input type="radio" name="gender" value="雙" id="both" /><label for="both">雙</label>
-            <input type="radio" name="gender" value="跨" id="trans" /><label for="trans">跨</label>
           </div>
           <div class="form-group">
             <label>身分證:</label>

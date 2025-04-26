@@ -63,6 +63,10 @@
 <script setup>
 import { ref, watch, onMounted, computed } from 'vue';
 
+import img1 from '@/assets/img/challenge_inner_pic/head/image1.png'
+import img2 from '@/assets/img/challenge_inner_pic/head/image2.png'
+import img3 from '@/assets/img/challenge_inner_pic/head/image3.png'
+
 // Reactive state
 const selectedDate = ref(new Date().toISOString().slice(0, 10));
 const selectedYear = ref(null);
@@ -74,13 +78,13 @@ const itemsPerPage = ref(3);
 // Hardcoded schedule data (replace with backend data)
 // TODO: get from backend based on selectedDate
 const allNutritionists = ref([
-  { id: 1, name: 'Anna', avatar: 'https://via.placeholder.com/48/FF0000/FFFFFF?text=A', schedule: ['09:00', '09:30', '10:00'] },
-  { id: 2, name: 'Zara', avatar: 'https://via.placeholder.com/48/00FF00/FFFFFF?text=Z', schedule: ['14:00', '14:30', '18:00', '19:00', '22:30', '23:00'] },
-  { id: 3, name: 'Net', avatar: 'https://via.placeholder.com/48/0000FF/FFFFFF?text=N', schedule: ['08:00', '08:30', '10:00', '11:00', '11:30', '12:00', '13:00', '13:30', '14:00'] },
-  { id: 4, name: 'Ben', avatar: 'https://via.placeholder.com/48/FFFF00/000000?text=B', schedule: ['10:30', '11:00', '15:00'] },
-  { id: 5, name: 'Chloe', avatar: 'https://via.placeholder.com/48/FF00FF/FFFFFF?text=C', schedule: ['09:00', '14:00', '16:30'] },
-  { id: 6, name: 'David', avatar: 'https://via.placeholder.com/48/00FFFF/000000?text=D', schedule: ['11:30', '12:00', '17:00', '17:30'] },
-  { id: 7, name: 'Eva', avatar: 'https://via.placeholder.com/48/FFA500/FFFFFF?text=E', schedule: ['10:00', '16:00'] },
+  { id: 1, name: 'Anna', avatar: img1, schedule: ['09:00', '09:30', '10:00'] },
+  { id: 2, name: 'Zara', avatar: img2, schedule: ['14:00', '14:30', '18:00', '19:00', '22:30', '23:00'] },
+  { id: 3, name: 'Net', avatar: img3, schedule: ['08:00', '08:30', '10:00', '11:00', '11:30', '12:00', '13:00', '13:30', '14:00'] },
+  { id: 4, name: 'Ben', avatar: img2, schedule: ['10:30', '11:00', '15:00'] },
+  { id: 5, name: 'Chloe', avatar: img3, schedule: ['09:00', '14:00', '16:30'] },
+  { id: 6, name: 'David', avatar: img1, schedule: ['11:30', '12:00', '17:00', '17:30'] },
+  { id: 7, name: 'Eva', avatar: img3, schedule: ['10:00', '16:00'] },
 ]);
 
 // Computed property for displayed nutritionists based on pagination
