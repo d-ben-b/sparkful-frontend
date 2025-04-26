@@ -53,7 +53,7 @@ const states = ref({
 
 const open_modal_background = ref(false)
 const isVIP = ref(true)
-const showUpgrade = ref(true)
+const showUpgrade = ref(false)
 
 const goto = useGoto()
 const router = useRouter()
