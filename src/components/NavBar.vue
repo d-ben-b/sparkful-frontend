@@ -7,10 +7,10 @@
   </transition>
   <transition name="menu">
     <UploadModal v-if="states.isUploadOpen" @close="() => toggle('isUploadOpen')" class="upload-menu"
-      @toggle-close="() => toggle('isUploadOpen')" @toggle-upgrade="() => showUpgrade = true"
+      @toggle-close="() => toggle('isUploadOpen')" @toggle-upgrade="() => upgrade()"
       @reload-page="() => window.location.reload()" />
   </transition>
-  <UpgradeModal v-if="showUpgrade" @click="showUpgrade = !showUpgrade" />
+  <UpgradeModal v-if="showUpgrade" @click="showUpgrade = !showUpgrade" :level="level" />
   <nav class="bar">
     <img src="@/assets/img/icons/EatSmart.png" alt="title Image" class="icon" @click="goto('home')" />
     <img src="@/assets/img/profile/1.png" alt="profile Image" class="icon" @click="goto('personal-page')" />
@@ -39,6 +39,11 @@ import HamburgerComp from '@/components/drop_down/HamburgerComp.vue'
 import VIPmenu from '@/components/drop_down/VIPmenu.vue'
 import UploadModal from '@/components/modal/UploadModal.vue'
 import UpgradeModal from '@/components/modal/UpgradeModal.vue'
+import { useUserProfileStore } from '@/stores/userProfile';
+
+
+const store = useUserProfileStore()
+
 
 const states = ref({
   isMenuOpen: false,
@@ -48,10 +53,13 @@ const states = ref({
 
 const open_modal_background = ref(false)
 const isVIP = ref(true)
-const showUpgrade = ref(false)
+const showUpgrade = ref(true)
 
 const goto = useGoto()
 const router = useRouter()
+
+const level = ref(store.getUserLevel())
+
 
 const toggle = (key) => {
   Object.keys(states.value).forEach((stateKey) => {
@@ -75,6 +83,12 @@ const closeMenu = () => {
   states.value.isMenuOpen = false
   states.value.VIPmenuOpen = false
   states.value.isUploadOpen = false
+}
+
+const upgrade = () => {
+  showUpgrade.value = !showUpgrade.value
+  store.getUserLevel()
+  level.value = store.getUserLevel()
 }
 </script>
 

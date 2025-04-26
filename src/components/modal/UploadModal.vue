@@ -85,7 +85,7 @@
             </div>
           </div>
 
-          <button class="submit-button" @click="submitRating">吃貨徵集</button>
+          <button class="submit-button" @click="submitRating">吃貨建檔</button>
         </div>
       </div>
     </div>
@@ -101,7 +101,7 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useUserProfileStore } from '@/stores/userProfile' // Import the store
 
-const uploadStore = useUserProfileStore() // Instantiate the store
+const store = useUserProfileStore() // Instantiate the store
 
 const coin = ref(0) // Default to 30 as shown in the image
 const client_id = ref(1)
@@ -208,7 +208,7 @@ const handleFileUpload = async (event) => {
       // Get nutrition score from response
       const score = response.data.ai_results.detections[0].nutrition_score
       // Update the store state using the action
-      uploadStore.setNutritionScore(score)
+      store.setNutritionScore(score)
       getUploadDetail()
     } catch (error) {
       console.error('Upload failed:', error)
@@ -242,6 +242,7 @@ const submitRating = async () => {
       number_of_posts.value = response.data.client_posts
       if (number_of_posts.value % 2 === 0) {
         console.log('Even number of posts, showing upgrade dialog')
+        store.addUserLevel(1)
         emit('toggle-upgrade')
       }
       emit('toggle-close') // Close the dialog after submission

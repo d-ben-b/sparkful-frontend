@@ -188,7 +188,7 @@ const shop_challenges = ref({
                       蕎麥麵周周練挑戰
                       每日少油挑戰
                       `,
-    challengePerson: 'default',
+    challengePerson: 'Ben',
     challengeTime: 'default',
     profilePhoto: image1,
     star: 2,
@@ -214,7 +214,7 @@ const shop_challenges = ref({
 🔥 參與挑戰 :
 高纖挑戰
 連續一周吃沙拉挑戰`,
-    challengePerson: 'default',
+    challengePerson: 'Kan',
     challengeTime: 'default',
     profilePhoto: image3,
     star: 1,
@@ -227,7 +227,7 @@ const shop_challenges = ref({
  參與挑戰 :
 低熱量挑戰
 每日少油挑戰`,
-    challengePerson: 'default',
+    challengePerson: 'Tom',
     challengeTime: 'default',
     profilePhoto: image1,
     star: 1,

@@ -40,10 +40,13 @@
       </div>
     </div>
   </div>
+
+  <img :src="levelImageSrc" alt="level image" class="level-img" />
+  <p class="level-desc"> {{ levelDescList[store.getUserLevel()] }}</p>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import axios from 'axios'
 import { onMounted } from 'vue'
 import CalendarComp from '@/components/CalendarComp.vue'
@@ -56,6 +59,7 @@ import photo from '@/assets/img/profile/photo.png'
 const store = useUserProfileStore()
 
 const pieChartData = ref()
+// import levelImage from `@/assets/img/levels/image${userLevel}.png`
 
 const client_id = ref(1)
 
@@ -63,6 +67,10 @@ const show_comp = ref(0)
 const showComp = (comp_num) => {
   show_comp.value = comp_num
 }
+
+const levelDescList = ref(['銅鍋', '銀鍋', '韓式黃銅鍋', '韓式陶鍋', '平底鍋', '炒鍋', '日式土鍋', '韓式銅盤', '微波爐', '大同電鍋', '壓力鍋', '氣炸鍋',
+  '部隊鍋', '壽喜燒', '關東煮', '韓式拉麵', '海帶湯', '豬肉湯飯', '大醬鍋', '韓式銅盤烤肉', '海南雞飯', '炒飯', '烤鮭魚'
+])
 //TODO get from backend
 const progress = ref(98)
 const i = ref(0)
@@ -148,6 +156,26 @@ const getUserPost = async () => {
   userPosts.value = postsData
 }
 
+const levelImageSrc = computed(() => {
+  const level = store.getUserLevel() // Get current level from store
+  if (level >= 0) {
+    // Paths relative to the public folder are accessed from the root
+    return `/img/levels/image${level}.png`
+  }
+  return null // Or a default path like '/img/levels/default.png'
+})
+
+const getUserLevel = async () => {
+  const response = await axios.get('get-user-level', {
+    params: {
+      client_id: client_id.value,
+    },
+  })
+  store.setUserLevel(response.data.level)
+  console.log('user level:', response.data.level)
+}
+
+
 const getImg = async (post) => {
   try {
     // Set responseType to 'blob' to handle binary data
@@ -192,6 +220,7 @@ onMounted(() => {
   move()
   getUserData()
   getUserPost()
+  getUserLevel()
   pieChartData.value = store.getNutritionScore()
 })
 </script>
@@ -423,5 +452,25 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   border-radius: 20px;
+}
+
+.level-img {
+  position: absolute;
+  width: 119px;
+  height: 119px;
+  top: 129px;
+  left: 562px;
+}
+
+.level-desc {
+  position: absolute;
+  top: 140px;
+  left: 721px;
+  font-family: Kaisei Decol;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
 }
 </style>
